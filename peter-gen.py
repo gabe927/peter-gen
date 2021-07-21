@@ -64,4 +64,7 @@ if __name__ == "__main__":
         phrase = pg.get_new_string(reverse=reverse)
         if flip:
             phrase = phrase[::-1]
-        input(phrase)
+        try:
+            input(phrase)
+        except:
+            break
