@@ -8,7 +8,7 @@ import sys
 import random
 import getopt
 from types import resolve_bases
-
+from datetime import date
 ########
 #      #
 # Main #
@@ -48,9 +48,14 @@ if __name__ == "__main__":
     flip = False
     pg = peter_gen()
 
+    # open/create save file to append
+    file = open("bestof.txt", "a+")
     # arguments
+    # -r: reverse verb and noun
+    # -f: flip entire phrase
+    # -c: clear save file
     try:
-        opts, arg = getopt.getopt(sys.argv[1:], "rf",[])
+        opts, arg = getopt.getopt(sys.argv[1:], "rfc",[])
     except getopt.GetoptError:
         sys.exit(2)
     for opt, arg in opts:
@@ -58,6 +63,8 @@ if __name__ == "__main__":
             reverse = True
         elif opt == '-f':
             flip = True
+        elif opt == '-c':
+            file = open("bestof.txt", "w+")
 
     # cli loop
     while True:
@@ -65,6 +72,12 @@ if __name__ == "__main__":
         if flip:
             phrase = phrase[::-1]
         try:
-            input(phrase)
+            flag = str(input(f"{phrase} "))
+            # check for flip -f
+            if flag == '-f':
+                print(phrase[::-1])
+            # check for save -s
+            elif flag == '-s':
+                file.write(f"{date.today()}: {phrase}\n")
         except:
             break
